@@ -1,0 +1,35 @@
+server:
+  port: 8081
+spring:
+  datasource:
+#    jar包同目录下SQL/example.db数据库文件
+#    url: jdbc:sqlite:SQL/example.db
+#    项目静态资源目录resource/SQL/example.db的数据库文件
+#    url: jdbc:sqlite::resource:SQL/example.db
+#    绝对路径下的数据库文件
+    url: jdbc:sqlite:E:/物业综合管理平台/sadoc/SpringCloud-Demo/DownloadBingPicture/src/main/resources/SQL/example.db
+    username:
+    password:
+    driver-class-name: org.sqlite.JDBC
+  freemarker:
+    #默认.ftl
+    suffix: .html
+    template-loader-path: classpath:/templates/
+    charset: UTF-8
+    content-type: text/html
+    cache: false
+  resources:
+    static-locations: classpath:/templates/
+mybatis:
+  type-aliases-package: com.medfav.bing.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+customer:
+  config:
+    rootUrl: https://cn.bing.com
+    urlPath: /HPImageArchive.aspx
+    savePath: E:/xiuren/
+    schedules: 0 0 * * * ?
+pagehelper:
+  auto-runtime-dialect: SQLite

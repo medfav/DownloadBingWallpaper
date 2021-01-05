@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medfav.bing.repository.PictureMapper">
+
+    <insert id="insertPicInfo">
+        insert into picture (startdate, fullstartdate, enddate, rooturl, url, uhdurl, urlbase, filename, uhdfilename, copyright, en_copyright, copyrightlink, title, quiz, wp, hsh, drk, top, bot, hs, ency_img_title, ency_desc, cn_ency_img_title, cn_ency_desc)
+        values (#{startdate}, #{fullstartdate}, #{enddate}, #{rooturl}, #{url}, #{uhdurl}, #{urlbase}, #{filename}, #{uhdfilename}, #{copyright}, #{enCopyright}, #{copyrightlink}, #{title}, #{quiz}, #{wp}, #{hsh}, #{drk}, #{top}, #{bot}, #{hs}, #{encyImgTitle}, #{encyDesc}, #{cnEncyImgTitle}, #{cnEncyDesc});
+    </insert>
+    <select id="selectPicInfo" resultType="com.medfav.bing.entity.Picture">
+        select id,startdate,url,uhdurl,hsh from picture where url=#{url} limit 1;
+    </select>
+    <select id="selectAllPic" resultType="com.medfav.bing.entity.Picture">
+        select id,enddate,rooturl,url,uhdurl,filename,uhdfilename,copyright,cn_ency_img_title,cn_ency_desc from picture order by enddate
+    </select>
+</mapper>

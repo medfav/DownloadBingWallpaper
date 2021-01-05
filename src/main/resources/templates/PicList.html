@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Bing壁纸</title>
+        <style type="text/css">
+            body{
+                width: 99.6%;
+                min-width: 1366px;
+            }
+            table{
+                width: 90%;
+                margin: 0 auto;
+                border: 1px dashed #cecece;
+            }
+            .th-id{
+                width: 20px;
+            }
+            .th-date{
+                width: 100px;
+            }
+            .tr-white {
+                background-color: white;
+            }
+            .tr-color {
+                background-color: #cbe7ff;
+            }
+            td {
+                padding: 3px 5px;
+            }
+            .page {
+                text-align: center;
+                height: 50px;
+            }
+            .page .div-btn{
+                display: initial;
+                margin: 0 5px;
+                padding: 5px 7px;
+                cursor: pointer;
+                background-color: #2987e0;
+                color: white;
+                border-radius: 15px;
+            }
+            .page .div-btn[disabled] {
+                cursor: not-allowed;
+                background-color: gray;
+                color: lightgray;
+            }
+            .pages{
+                width: 25px;
+                background-color: #2987e0;
+                border-style: none;
+                color: white;
+                text-align: center;
+            }
+            .page-num:focus {
+                background-color: white;
+                color: black;
+            }
+            .page-control {
+                width: 500px;
+                text-align: center;
+                display: inline-block;
+            }
+            .div-prePage, .div-nextPage, .select-page {
+                width: 150px;
+                display: inline-block;
+            }
+            .td-filename{
+                width: 220px;
+            }
+            .div-filename{
+                display: inline-block;
+                width: 100px;
+            }
+            .td-copyright {
+                width: 250px;
+            }
+            .td-title{
+                width: 150px;
+            }
+            .td-desc{
+                width: 500px;
+
+            }
+            .div-overflow{
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .pic-link{
+                width: 40px;
+                text-align: center;
+                border-radius: 12px;
+                height: 15px;
+                margin: 0;
+                border: 1px solid #9c9c9c;
+                vertical-align: middle;
+            }
+            .pic-link:focus {
+                border: 1px solid #1985ec;
+                border-radius: 12px;
+                outline-style: none;
+                box-shadow: 0 0 2px 1px #1985ec;
+            }
+            a{
+                color: #1985ec;
+                text-decoration: none;
+                border: 1px solid #1985ec;
+                padding: 1px 5px;
+                border-radius: 12px;
+                vertical-align: middle;
+            }
+            .div-msg {
+                display: block;
+                width: 21px;
+                height: 21px;
+                line-height: 21px;
+                margin: 0px 5% 5px auto;
+                border: 2px solid #2987e0;
+                color: #2987e0;
+                font-weight: bold;
+                text-align: center;
+                border-radius: 17px;
+                transform: rotate(0deg);
+                cursor: pointer;
+            }
+            .red-dot {
+                width: 10px;
+                height: 10px;
+                background-color: red;
+                display: none;
+                position: fixed;
+                top: -3px;
+                right: -3px;
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: normal;
+                line-height: 10px;
+                color: white;
+            }
+            .th-link{
+                min-width: 190px;
+                max-width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="div-msg" title="" onclick="viewMsg()">
+            <span class="msg-icon">!</span>
+            <span class="red-dot" style="display: none">0</span>
+        </div>
+        <table>
+            <thead>
+                <th class="th-id">ID</th>
+                <th class="th-date">日期</th>
+                <th class="th-link">链接</th>
+                <th class="td-filename">文件名</th>
+                <th class="td-copyright">来源</th>
+                <th class="td-title">标题</th>
+                <th class="td-desc">描述</th>
+            </thead>
+            <#list pageInfo.list as item>
+            <tr class="<#if item_index%2==0 >tr-color<#else>tr-white</#if>">
+                <td>${item_index + 1}</td>
+                <td>${item.enddate}</td>
+                <td class="th-link">
+                    <a target="_blank" href="${item.rooturl + item.url}">1920x1080</a>
+                    <a target="_blank" href="${item.rooturl + item.uhdurl}">高清UHD</a>
+                    <input id="pic-w-${item_index}" class="pic-link" type="text" value="1366" title="宽">
+                    <span>x</span>
+                    <input id="pic-h-${item_index}" class="pic-link" type="text" value="768" title="高">
+                    <a class="pic-link-a" href="javascript:openPic('${item.rooturl + item.url}','pic-w-${item_index}','pic-h-${item_index}')">打开</a>
+                </td>
+                <td>
+                    <div class="div-filename div-overflow" title="${item.filename}">${item.filename}</div>
+                    <div class="div-filename div-overflow" title="${item.uhdfilename}">${item.uhdfilename}</div>
+                </td>
+                <td><div class="td-copyright div-overflow" title="${item.copyright}">${item.copyright}</div></td>
+                <td><div class="td-title div-overflow" title="${item.cnEncyImgTitle}">${item.cnEncyImgTitle}</div></td>
+                <td><div class="td-desc div-overflow" title="${item.cnEncyDesc?replace("\"","&#34;")}">${item.cnEncyDesc}</div></td>
+            </tr>
+            </#list>
+            <tr >
+                <td colspan="7" class="page">
+                    <div class="page-control">
+                        <div class="div-prePage">
+                            <div class="div-btn" <#if pageInfo.isFirstPage >disabled<#else>onclick="skipPage(${pageInfo.navigateFirstPage})"</#if> >首页</div>
+                            <div class="div-btn" <#if pageInfo.isFirstPage >disabled<#else>onclick="skipPage(${pageInfo.prePage})"</#if> >上一页</div>
+                        </div>
+                        <div class="div-btn select-page">第<input class="page-num pages" type="text" onkeypress="onlyNum()" onkeyup="checkNum(this)" onblur="skipPage(this.value)" value="${pageInfo.pageNum}"/>/<input class="pages" readonly disabled type="text" value="${pageInfo.pages}"/>页</div>
+                        <div class="div-nextPage">
+                            <div class="div-btn" <#if pageInfo.isLastPage >disabled<#else>onclick="skipPage(${pageInfo.nextPage})"</#if> >下一页</div>
+                            <div class="div-btn" <#if pageInfo.isLastPage >disabled<#else>onclick="skipPage(${pageInfo.navigateLastPage})"</#if> >末页</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <script>
+            function skipPage(page) {
+                var total = document.querySelector(".select-page>input:last-child").value;
+                if (/\d+/.test(page) && Number(page) > 0 && Number(page) <= total) {
+                    window.location.href="http://localhost:8081/getBingPicList?pageIndex="+page+"&pageSize=10";
+                }
+            }
+            function openPic(picLink,width,hight) {
+                window.open(picLink + "&w=" + document.getElementById(width).value + "&h=" + document.getElementById(hight).value+"&c=1&rs=1&qlt=90&pid=InlineBlock");
+            }
+            function onlyNum(){
+                var e = window.event;
+                if(!(e.keyCode>=48&&e.keyCode<=57)) {
+                    e.returnValue = false;
+                }
+            }
+            function checkNum(o) {
+                var total = document.querySelector(".select-page>input:last-child").value;
+                if (Number(o.value)>Number(total)){
+                    o.value = total;
+                }
+            }
+            function viewMsg(){
+                document.querySelector(".red-dot").textContent = 0;
+                document.querySelector(".red-dot").style.display = "none";
+                location.reload();
+            }
+
+            //Native 转换 Unicode
+            function Native2Unicode(a_s) {
+
+                // var a_s=$("#a_source").val();
+                if ('' == a_s) {
+                    alert('请输入Native字符串');
+                    return;
+                }
+                $("#u_source").val('');
+                for (var i=0; i<$("#a_source").val().length; i++)
+                    $("#u_source").val($("#u_source").val() + '&#' + a_s.charCodeAt(i) + ';');
+            }
+
+            //Unicode 转换 Native
+            function Unicode2Native(code) {
+                // var code = $("#u_source").val().match(/&#(\d+);/g);
+                if (code == null) {
+                    alert('请输入正确的Unicode代码！'); $("#u_source").focus();
+                    return;
+                }
+                $("#a_source").val('');
+                for (var i=0; i<code.length; i++)
+                    $("#a_source").val($("#a_source").val() + String.fromCharCode(code[i].replace(/[&#;]/g, '')));
+            }
+
+        </script>
+        <script type="text/javascript">
+            var socket;
+            var timer = null;
+            function createWebSocket() {
+                if (typeof (WebSocket) == "undefined") {
+                    console.log("遗憾：您的浏览器不支持WebSocket");
+                } else {
+                    if (socket == undefined && typeof WebSocket != undefined) {
+                        console.log("恭喜：您的浏览器支持WebSocket");
+                    }
+
+                    //实现化WebSocket对象
+                    //指定要连接的服务器地址与端口建立连接
+                    //注意ws、wss使用不同的端口。我使用自签名的证书测试，
+                    //无法使用wss，浏览器打开WebSocket时报错
+                    //ws对应http、wss对应https。
+                    socket = new WebSocket("ws://" + window.location.host + "/ws/asset");
+                    //连接打开事件
+                    socket.onopen = function () {
+                        console.log("Socket 已打开");
+                        socket.send("消息发送测试(From Client)");
+                        // clearInterval(errorTimer);//清除定时器
+                    };
+                    //收到消息事件
+                    socket.onmessage = function (msg) {
+                        console.log("收到消息：" + msg.data);
+                        var data = JSON.parse(msg.data);
+                        if (data.text == '1') {
+                            console.log("新增一张图片！");
+                            document.querySelector(".div-msg").setAttribute("title", "新增" + Number(num) + Number(data.text) + "张图片！");
+                            var num = document.querySelector(".red-dot").textContent;
+                            document.querySelector(".red-dot").textContent = Number(num) + Number(data.text);
+                            document.querySelector(".red-dot").style.display = "block";
+                        }
+                    };
+                    //连接关闭事件
+                    socket.onclose = function () {
+                        console.log("Socket已关闭");
+                        console.log("10秒后重连!");
+                        //设置定时器
+                        setTimeout(function () {
+                            console.log("正在重连...");
+                            createWebSocket();
+                        }, 1000 * 10);
+                    };
+                    //发生了错误事件
+                    socket.onerror = function () {
+                        console.log("Socket发生了错误");
+                    }
+
+                    //窗口关闭时，关闭连接
+                    window.unload = function () {
+                        socket.close();
+                    };
+                }
+            }
+            //创建WebSocket连接
+            createWebSocket();
+        </script>
+    </body>
+</html>
