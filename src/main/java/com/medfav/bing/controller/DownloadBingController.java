@@ -35,7 +35,7 @@ public class DownloadBingController {
         }
     }
 
-    @GetMapping("/getBingPicList")
+    @GetMapping(value = {"/","/getBingPicList"})
     public String getBingPicList(@RequestParam(value = "pageIndex",defaultValue = "1")Integer pageIndex,
                                  @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize,
                                  ModelMap map){

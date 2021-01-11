@@ -280,8 +280,8 @@
                         var data = JSON.parse(msg.data);
                         if (data.text == '1') {
                             console.log("新增一张图片！");
-                            document.querySelector(".div-msg").setAttribute("title", "新增" + Number(num) + Number(data.text) + "张图片！");
                             var num = document.querySelector(".red-dot").textContent;
+                            document.querySelector(".div-msg").setAttribute("title", "新增" + (Number(num) + Number(data.text)) + "张图片！");
                             document.querySelector(".red-dot").textContent = Number(num) + Number(data.text);
                             document.querySelector(".red-dot").style.display = "block";
                         }
