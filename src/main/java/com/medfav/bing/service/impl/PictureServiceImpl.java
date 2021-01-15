@@ -25,8 +25,17 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public Picture selectPicInfo(String url) {
-        return pictureMapper.selectPicInfo(url);
+    public Integer updatePicInfo(Picture pictureInfo) {
+        Integer num = pictureMapper.updatePicInfo(pictureInfo);
+        if (num > 0) {
+            log.info("更新记录：{}",pictureInfo.getCnEncyImgTitle());
+        }
+        return num;
+    }
+
+    @Override
+    public Picture selectPicInfo(String enddate) {
+        return pictureMapper.selectPicInfo(enddate);
     }
 
     @Override

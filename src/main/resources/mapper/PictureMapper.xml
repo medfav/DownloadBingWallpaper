@@ -6,8 +6,11 @@
         insert into picture (startdate, fullstartdate, enddate, rooturl, url, uhdurl, urlbase, filename, uhdfilename, copyright, en_copyright, copyrightlink, title, quiz, wp, hsh, drk, top, bot, hs, ency_img_title, ency_desc, cn_ency_img_title, cn_ency_desc)
         values (#{startdate}, #{fullstartdate}, #{enddate}, #{rooturl}, #{url}, #{uhdurl}, #{urlbase}, #{filename}, #{uhdfilename}, #{copyright}, #{enCopyright}, #{copyrightlink}, #{title}, #{quiz}, #{wp}, #{hsh}, #{drk}, #{top}, #{bot}, #{hs}, #{encyImgTitle}, #{encyDesc}, #{cnEncyImgTitle}, #{cnEncyDesc});
     </insert>
+    <update id="updatePicInfo">
+        update picture set en_copyright = #{enCopyright}, copyrightlink = #{copyrightlink},quiz = #{quiz}, ency_img_title = #{encyImgTitle}, ency_desc = #{encyDesc}, cn_ency_img_title = #{cnEncyImgTitle}, cn_ency_desc = #{cnEncyDesc} where startdate = #{startdate} and ency_img_title is null;
+    </update>
     <select id="selectPicInfo" resultType="com.medfav.bing.entity.Picture">
-        select id,startdate,url,uhdurl,hsh from picture where url=#{url} limit 1;
+        select id,startdate,url,uhdurl,ency_img_title,hsh from picture where enddate=#{enddate} limit 1;
     </select>
     <select id="selectAllPic" resultType="com.medfav.bing.entity.Picture">
         select id,enddate,rooturl,url,uhdurl,filename,uhdfilename,copyright,cn_ency_img_title,cn_ency_desc from picture order by enddate
