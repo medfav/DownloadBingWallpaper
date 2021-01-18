@@ -20,7 +20,7 @@ public class PictureServiceImpl implements PictureService {
     private PictureMapper pictureMapper;
 
     public Integer insertPicInfo(Picture pictureInfo) {
-        log.info("添加记录：{}",pictureInfo.getCopyright());
+        log.info("添加记录：{}",pictureInfo.getUrl()!=null?pictureInfo.getUrl():pictureInfo.getCopyright());
         return pictureMapper.insertPicInfo(pictureInfo);
     }
 
