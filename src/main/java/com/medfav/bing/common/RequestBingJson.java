@@ -66,7 +66,7 @@ public class RequestBingJson {
             picList.addAll(JSONArray.parseArray(JSON.toJSONString(responseDate.get("images")), Picture.class));
             picListEnglish.addAll(JSONArray.parseArray(JSON.toJSONString(responseDateEnglish.get("images")), Picture.class));
         }
-        if (picList.get(0).getStartdate() == picListEnglish.get(0).getStartdate()) {
+        if (picList.get(0).getStartdate().equals(picListEnglish.get(0).getStartdate())) {
             picListEnglish.add(0, new Picture());
             picList.add(new Picture());
         }
@@ -126,14 +126,16 @@ public class RequestBingJson {
                     DownloadUtil.downPic(rootUrl + url, filePath, rootUrl);
                     //下载UHD壁纸
                     DownloadUtil.downPic(rootUrl + uhdUrl, filePathUhd, rootUrl);
+                    //发送增加壁纸消息
+                    WebSocketServer.BroadCastInfo("+1");
                 }else if (item.getEnCopyright() != null){
                     //更新壁纸信息
                     pictureService.updatePicInfo(item);
+                    //发送更新壁纸消息
+                    WebSocketServer.BroadCastInfo("1");
                 }else {
                     log.info("已存在壁纸没有新数据：{}", item.getUrl());
-                    continue;
                 }
-                WebSocketServer.BroadCastInfo("1");
             } else {
                 log.info("已存在壁纸：{}", item.getUrl());
             }
