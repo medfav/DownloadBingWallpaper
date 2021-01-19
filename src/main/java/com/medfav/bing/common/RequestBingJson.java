@@ -134,10 +134,10 @@ public class RequestBingJson {
                     //发送更新壁纸消息
                     WebSocketServer.BroadCastInfo("1");
                 }else {
-                    log.info("已存在壁纸没有新数据：{}", item.getUrl());
+                    log.info("已存在壁纸没有新数据：{}", hasPic.getEnddate() + " ==> " + hasPic.getCopyright());
                 }
             } else {
-                log.info("已存在壁纸：{}", item.getUrl());
+                log.info("已存在壁纸：{}", hasPic.getEnddate() + " ==> " + hasPic.getCopyright());
             }
         }
     }

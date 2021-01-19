@@ -20,7 +20,7 @@ public class PictureServiceImpl implements PictureService {
     private PictureMapper pictureMapper;
 
     public Integer insertPicInfo(Picture pictureInfo) {
-        log.info("添加记录：{}",pictureInfo.getUrl()!=null?pictureInfo.getUrl():pictureInfo.getCopyright());
+        log.info("添加记录：{}", pictureInfo.getEnddate() + " ==> " + pictureInfo.getUrl() != null ? pictureInfo.getUrl() : pictureInfo.getCopyright());
         return pictureMapper.insertPicInfo(pictureInfo);
     }
 
@@ -28,7 +28,7 @@ public class PictureServiceImpl implements PictureService {
     public Integer updatePicInfo(Picture pictureInfo) {
         Integer num = pictureMapper.updatePicInfo(pictureInfo);
         if (num > 0) {
-            log.info("更新记录：{}",pictureInfo.getCnEncyImgTitle());
+            log.info("更新记录：{}", pictureInfo.getEnddate() + " ==> " + pictureInfo.getEnCopyright());
         }
         return num;
     }
@@ -40,9 +40,7 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public List<Picture> selectAllPic() {
-//        PageHelper.startPage(1, 5);
         List<Picture> pictureList = pictureMapper.selectAllPic();
-//        PageInfo<Picture> pageInfo = new PageInfo<>(pictureList);
         return pictureList;
     }
 }

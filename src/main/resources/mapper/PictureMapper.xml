@@ -7,7 +7,9 @@
         values (#{startdate}, #{fullstartdate}, #{enddate}, #{rooturl}, #{url}, #{uhdurl}, #{urlbase}, #{filename}, #{uhdfilename}, #{copyright}, #{enCopyright}, #{copyrightlink}, #{title}, #{quiz}, #{wp}, #{hsh}, #{drk}, #{top}, #{bot}, #{hs}, #{encyImgTitle}, #{encyDesc}, #{cnEncyImgTitle}, #{cnEncyDesc});
     </insert>
     <update id="updatePicInfo">
-        update picture set en_copyright = #{enCopyright}, copyrightlink = #{copyrightlink},quiz = #{quiz}, ency_img_title = #{encyImgTitle}, ency_desc = #{encyDesc}, cn_ency_img_title = #{cnEncyImgTitle}, cn_ency_desc = #{cnEncyDesc} where startdate = #{startdate} and ency_img_title is null;
+        update picture
+        set en_copyright = #{enCopyright}, copyrightlink = #{copyrightlink},quiz = #{quiz}, ency_img_title = #{encyImgTitle}, ency_desc = #{encyDesc}, cn_ency_img_title = #{cnEncyImgTitle}, cn_ency_desc = #{cnEncyDesc}
+        where enddate = #{enddate} and ency_img_title is null;
     </update>
     <select id="selectPicInfo" resultType="com.medfav.bing.entity.Picture">
         select id,startdate,url,uhdurl,ency_img_title,hsh from picture where enddate=#{enddate} limit 1;
