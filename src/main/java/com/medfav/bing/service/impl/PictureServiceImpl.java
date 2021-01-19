@@ -28,7 +28,7 @@ public class PictureServiceImpl implements PictureService {
     public Integer updatePicInfo(Picture pictureInfo) {
         Integer num = pictureMapper.updatePicInfo(pictureInfo);
         if (num > 0) {
-            log.info("更新记录：{}", pictureInfo.getEnddate() + " ==> " + pictureInfo.getEnCopyright());
+            log.info("更新记录：{}", pictureInfo.getEnddate() + " ==> " + pictureInfo.getCnEncyImgTitle());
         }
         return num;
     }

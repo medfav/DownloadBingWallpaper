@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -66,6 +67,9 @@ public class RequestBingJson {
             picList.addAll(JSONArray.parseArray(JSON.toJSONString(responseDate.get("images")), Picture.class));
             picListEnglish.addAll(JSONArray.parseArray(JSON.toJSONString(responseDateEnglish.get("images")), Picture.class));
         }
+        //List去重
+        removeListDuplicate(picList);
+        removeListDuplicate(picListEnglish);
         if (picList.get(0).getStartdate().equals(picListEnglish.get(0).getStartdate())) {
             picListEnglish.add(0, new Picture());
             picList.add(new Picture());
@@ -140,5 +144,17 @@ public class RequestBingJson {
                 log.info("已存在壁纸：{}", hasPic.getEnddate() + " ==> " + hasPic.getCopyright());
             }
         }
+    }
+
+    /**
+     * List去重
+     * @param list
+     * @return
+     */
+    public static void removeListDuplicate(List list){
+        LinkedHashSet linkedHashSet = new LinkedHashSet<>(list.size());
+        linkedHashSet.addAll(list);
+        list.clear();
+        list.addAll(linkedHashSet);
     }
 }
