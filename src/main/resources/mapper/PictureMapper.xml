@@ -12,7 +12,7 @@
         where enddate = #{enddate} and ency_img_title is null;
     </update>
     <select id="selectPicInfo" resultType="com.medfav.bing.entity.Picture">
-        select id,startdate,url,uhdurl,ency_img_title,hsh from picture where enddate=#{enddate} limit 1;
+        select id,enddate,url,copyright,ency_img_title from picture where enddate=#{enddate} limit 1;
     </select>
     <select id="selectAllPic" resultType="com.medfav.bing.entity.Picture">
         select id,enddate,rooturl,url,uhdurl,filename,uhdfilename,copyright,cn_ency_img_title,cn_ency_desc from picture order by enddate
