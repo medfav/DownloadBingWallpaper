@@ -37,6 +37,10 @@ public class RequestBingJson {
     @Value("${customer.config.urlPath}")
     private String urlPath;
 
+    /**
+     * 获取Bing壁纸信息的定时任务
+     * @throws Exception
+     */
 //    @PostConstruct
     @Scheduled(cron = "${customer.config.schedules}")
     public void downloadBingPicture() throws Exception {
@@ -48,6 +52,11 @@ public class RequestBingJson {
         startDownloadBingPicture(piclist[0], piclist[1]);
     }
 
+    /**
+     * 通过官方API获取壁纸列表json（中文/国际）
+     * @return
+     * @throws Exception
+     */
     private List[] getPiclist() throws Exception {
         List<Picture> picList = new ArrayList<>();
         List<Picture> picListEnglish = new ArrayList<>();
@@ -78,6 +87,12 @@ public class RequestBingJson {
         return pl;
     }
 
+    /**
+     * 获取壁纸小故事(中/英)、下载壁纸、写入数据库
+     * @param picList 中文壁纸信息列表
+     * @param picListEnglish 国际版壁纸信息列表
+     * @throws Exception
+     */
     private void startDownloadBingPicture (List<Picture> picList, List<Picture> picListEnglish) throws Exception {
         for (int i = 0;i<picList.size();i++) {
             Picture item = picList.get(i);

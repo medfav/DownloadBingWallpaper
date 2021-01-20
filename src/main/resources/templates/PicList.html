@@ -201,7 +201,7 @@
             function skipPage(page) {
                 var total = document.querySelector(".select-page>input:last-child").value;
                 if (/\d+/.test(page) && Number(page) > 0 && Number(page) <= total) {
-                    window.location.href="http://localhost:8081/getBingPicList?pageIndex="+page+"&pageSize=10";
+                    window.location.href = window.location.origin + "/getBingPicList?pageIndex=" + page + "&pageSize=10";
                 }
             }
             function openPic(picLink,width,hight) {

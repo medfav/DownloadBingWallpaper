@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.medfav.bing.common.RequestBingJson;
 import com.medfav.bing.entity.Picture;
 import com.medfav.bing.service.PictureService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Create by wzx on 2020/12/14 15:52
  */
+@Slf4j
 @Controller
 public class DownloadBingController {
     @Autowired
@@ -24,17 +26,32 @@ public class DownloadBingController {
     @Autowired
     private RequestBingJson requestBingJson;
 
+    /**
+     * 手动开始获取Bing壁纸
+     *
+     * @return the pic
+     * @throws Exception the exception
+     */
     @GetMapping("/getPic")
     @ResponseBody
-    public Object getPic() throws Exception {
+    public String getPic() throws Exception {
         try {
             requestBingJson.downloadBingPicture();
             return "true";
         }catch (Exception e){
+            e.printStackTrace();
             return e.getMessage();
         }
     }
 
+    /**
+     * Bing壁纸信息列表
+     *
+     * @param pageIndex the page index
+     * @param pageSize  the page size
+     * @param map       the map
+     * @return the bing pic list
+     */
     @GetMapping(value = {"/","/getBingPicList"})
     public String getBingPicList(@RequestParam(value = "pageIndex",defaultValue = "1")Integer pageIndex,
                                  @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize,
@@ -43,7 +60,7 @@ public class DownloadBingController {
         List<Picture> pictureList = pictureService.selectAllPic();
         PageInfo<Picture> pageInfo = new PageInfo<>(pictureList);
         map.put("pageInfo", pageInfo);
-        System.out.println(pageInfo.toString());
+        log.info("当前页：{}，当前页记录数：{}", pageInfo.getPageNum(), pageInfo.getSize());
         return "PicList";
     }
 }
